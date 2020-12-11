@@ -5,7 +5,7 @@ import './css/index.css'
 Vue.config.productionTip = false
 Vue.use(Element)
 
-
+// clo
 
 new Vue({
     render: h => h(App),
