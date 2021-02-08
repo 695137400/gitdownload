@@ -1,43 +1,48 @@
 <template>
-    <div class="x-handle" @mousedown="mouseDown"></div>
+    <div class="x-handle" @mousedown="mouseDown" :style="'float:'+flot"></div>
 </template>
 
 <script>
     export default {
-        name: 'handle',
-        data() {
+        name: "handle",
+        data () {
             return {
-                lastX: ""
+                lastX: "",
+                flot: this.isLeft ? "right" : "left",
             };
         },
-        created() {
-            document.addEventListener("mouseup", this.mouseUp);
+        props: {
+            isLeft: Boolean,
         },
-        destroyed() {
+        created () {
+            document.addEventListener("mouseup", this.mouseUp);
+            console.log('isLeft',this.isLeft);
+            console.log('flot',this.flot);
+        },
+        destroyed () {
             document.removeEventListener("mouseup", this.mouseUp);
         },
         methods: {
-            mouseDown(event) {
+            mouseDown (event) {
                 document.addEventListener("mousemove", this.mouseMove);
                 this.lastX = event.screenX;
             },
-            mouseMove(event) {
+            mouseMove (event) {
                 this.$emit("widthChange", this.lastX - event.screenX);
                 this.lastX = event.screenX;
             },
-            mouseUp() {
+            mouseUp () {
                 this.lastX = "";
                 document.removeEventListener("mousemove", this.mouseMove);
-            }
-        }
+            },
+        },
     };
 </script>
-<style >
+<style>
     .x-handle {
-        width: 2px;
+        width: 20px;
         cursor: w-resize;
         z-index: 10;
         height: 100%;
-        float: right;
     }
 </style>

@@ -1,66 +1,62 @@
 <template>
     <div id="app" style="height: 100%">
-        <el-button
-                class="btn"
-                :icon="isCollapse?'el-icon-d-arrow-left':'el-icon-d-arrow-right'"
-                @click="tagleMenu"
-                circle
-                style="
-                position: fixed;
-                z-index: 999999999;
-                background-color: #19ec60;
-                color: #000000;"
-                :style="{'margin-left':startX+'px','margin-top':startY+'px'}"
-                @mousedown.native="mouseDown"
-                @mousemove.native="mousemove"
-        ></el-button>
-        <div class="el-menu-vertical-demo" v-if="isCollapse" :style="{ width: width + 'px' }">
-            <handle class="myxhandle" @widthChange="widthChange"/>
+        <btnHandle :click="tagleMenu" :icon="!isCollapse?'left':'right'" @leftChang="leftChang" style="background-color: #3a8ee6;width: 0px;height: 0px;"/>
+        <div class="el-menu-vertical-demo" v-if="isCollapse" :style="{ width: width + 'px' }" id="hand" :class="isLeft?'hand-left':'hand-right'">
+            <handle class="myxhandle" @widthChange="widthChange" :isLeft="isLeft"/>
         </div>
     </div>
 </template>
 
 <script>
     import handle from "./components/handle";
+    import btnHandle from "./components/btnHandle";
 
     export default {
         components: {
-            handle
+            handle,
+            btnHandle,
         },
-        name: 'App',
-        data() {
+        name: "App",
+        data () {
             return {
-                isCollapse: true,
+                isCollapse: false,
                 width: 400,
-                startX: 10,
-                startY: 10,
+                isLeft: true,
             };
         },
+        created () {
+            window._this = this;
+        },
         methods: {
-            tagleMenu() {
+            tagleMenu () {
                 if (this.isCollapse) {
-                    this.isCollapse = false
+                    this.isCollapse = false;
                 } else {
                     this.isCollapse = true;
                 }
             },
-            widthChange(movement) {
-                this.width -= movement;
+            widthChange (movement) {
+                var w = document.documentElement.offsetWidth;
+                if (this.isLeft) {
+                    this.width -= movement;
+                } else {
+                    this.width += movement;
+                }
                 if (this.width < 200) {
                     this.width = 200;
                 }
+                console.log(w / 2);
+                if (this.width > w / 2) {
+                    this.width = w / 2;
+                }
             },
-            mouseDown(event) {
-                console.log('a', event);
-                this.startX+=event.screenX;
+            leftChang (data) {
+                this.isLeft = data;
+                this.isCollapse = false;
+                this.width = 200;
             },
-            mousemove(event) {
-               console.log('X',event.screenX);
-               console.log('Y',event.screenY);
-
-            }
-        }
-    }
+        },
+    };
 </script>
 
 <style>
@@ -73,44 +69,28 @@
         height: 100%;
     }
 
+    #app {
+        position: absolute;
+        top: 0;
+    }
+
+    .el-menu-vertical-demo {
+        box-shadow: 0 0 5px;
+        background-color: red;
+    }
+
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 200px;
         height: 100%;
-        background-color: yellow;
         position: fixed;
     }
 
-    .el-row {
-        margin-bottom: 20px;
+    .hand-left {
+        left: 0;
     }
 
-    :last-child {
-        margin-bottom: 0;
+    .hand-right {
+        right: 0;
     }
 
-    .el-col {
-        border-radius: 4px;
-    }
-
-    .bg-purple-dark {
-        background: #99a9bf;
-    }
-
-    .bg-purple {
-        background: #d3dce6;
-    }
-
-    .bg-purple-light {
-        background: #e5e9f2;
-    }
-
-    .grid-content {
-        border-radius: 4px;
-        min-height: 36px;
-    }
-
-    .row-bg {
-        padding: 10px 0;
-        background-color: #f9fafc;
-    }
 </style>
