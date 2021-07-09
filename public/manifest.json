@@ -5,9 +5,6 @@
   "icons": {
     "128": "favicon.ico"
   },
-  "optional_permissions": [
-    "<all_urls>"
-  ],
   "permissions": [ "contextMenus", "activeTab", "tabs", "webRequest", "webRequestBlocking", "*://*/*" ],
   "offline_enabled": true,
   "background": {

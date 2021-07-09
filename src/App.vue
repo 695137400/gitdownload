@@ -1,7 +1,14 @@
 <template>
-    <div id="app" style="height: 100%">
-        <btnHandle :click="tagleMenu" :icon="!isCollapse?'left':'right'" @leftChang="leftChang" style="background-color: #3a8ee6;width: 0px;height: 0px;"/>
+    <div id="app" style="height: 100%;z-index: 99999;">
+        <btnHandle id="fbtn" :click="tagleMenu" @leftChang="leftChang" :style="{display:fbtnShow?'block':'none' }"/>
         <div class="el-menu-vertical-demo" v-if="isCollapse" :style="{ width: width + 'px' }" id="hand" :class="isLeft?'hand-left':'hand-right'">
+            <div style="height: 45px;">
+                <el-button class="menuBtn"
+                           style="float: right;"
+                           icon="el-icon-d-arrow-left"
+                           @click="tagleMinMenu"/>
+            </div>
+            <fileLIst/>
             <handle class="myxhandle" @widthChange="widthChange" :isLeft="isLeft"/>
         </div>
     </div>
@@ -10,32 +17,41 @@
 <script>
     import handle from "./components/handle";
     import btnHandle from "./components/btnHandle";
+    import fileLIst from "./components/fileList";
 
     export default {
         components: {
             handle,
             btnHandle,
+            fileLIst
         },
         name: "App",
         data () {
             return {
                 isCollapse: false,
-                width: 400,
+                width: 200,
                 isLeft: true,
+                fbtnShow: true,
+
             };
         },
         created () {
             window._this = this;
         },
         methods: {
-            tagleMenu () {
+            tagleMenu() {
                 if (this.isCollapse) {
+                    this.fbtnShow = true;
                     this.isCollapse = false;
                 } else {
                     this.isCollapse = true;
+                    this.fbtnShow = false;
                 }
             },
-            widthChange (movement) {
+            tagleMinMenu() {
+                this.tagleMenu();
+            },
+            widthChange(movement) {
                 var w = document.documentElement.offsetWidth;
                 if (this.isLeft) {
                     this.width -= movement;
@@ -45,7 +61,6 @@
                 if (this.width < 200) {
                     this.width = 200;
                 }
-                console.log(w / 2);
                 if (this.width > w / 2) {
                     this.width = w / 2;
                 }
@@ -76,7 +91,6 @@
 
     .el-menu-vertical-demo {
         box-shadow: 0 0 5px;
-        background-color: red;
     }
 
     .el-menu-vertical-demo:not(.el-menu--collapse) {

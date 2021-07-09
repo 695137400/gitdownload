@@ -16,8 +16,6 @@
         },
         created () {
             document.addEventListener("mouseup", this.mouseUp);
-            console.log('isLeft',this.isLeft);
-            console.log('flot',this.flot);
         },
         destroyed () {
             document.removeEventListener("mouseup", this.mouseUp);

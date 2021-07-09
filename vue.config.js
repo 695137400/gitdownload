@@ -1,6 +1,6 @@
+/*const CopyWebpackPlugin = require("copy-webpack-plugin");
+const path = require("path");*/
 /*
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const path = require("path");
 
 // Generate pages object
 const pagesObj = {};
@@ -30,25 +30,22 @@ const plugins = [
         manifest
     ])
 ]
+*/
 
 module.exports = {
-    pages: pagesObj,
     // // 生产环境是否生成 sourceMap 文件
     productionSourceMap: false,
 
     configureWebpack: {
-        entry: {
-            'content': './src/content/index.js'
-        },
         output: {
-            filename: 'js/[name].js'
+            filename: 'js/index.js',
+            chunkFilename:'js/chunk.js'
         },
-        plugins: [CopyWebpackPlugin(plugins)]
     },
     css: {
         extract: {
-            filename: 'css/[name].css'
-            // chunkFilename: 'css/[name].css'
+            filename: 'css/index.css',
+            chunkFilename: 'css/chunk.css',
         }
     },
     chainWebpack: config => {
@@ -67,4 +64,4 @@ module.exports = {
         })
     }
 };
-*/
+

@@ -8,11 +8,14 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         runAt: 'document_start'
     }, function (res) {
 
-        var cssFiles = ['app.425bdf97.css'];
+        var cssFiles = [
+            'css/index.css',
+            'css/chunk.css',
+        ];
 
         var jsFiles = [
-            'app.5b7f2b79.js',
-            'chunk-vendors.341b463c.js',
+            'js/index.js',
+            'js/chunk.js',
         ];
 
         eachTask([function (cb) {
